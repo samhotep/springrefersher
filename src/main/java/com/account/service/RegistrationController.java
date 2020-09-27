@@ -41,9 +41,10 @@ public class RegistrationController implements WebMvcConfigurer {
             return new Response(400, "ERROR", "Errors List");
         }
 
-        RegisteredUser registeredUser = registrationRepository.findByIdNumberAndUserName(Integer.parseInt(userForm.getIdNumber()), userForm.getUserName());
+        RegisteredUser registeredUserName = registrationRepository.findByUserName(userForm.getUserName());
+        RegisteredUser registeredIdNumber = registrationRepository.findByIdNumber(Integer.parseInt(userForm.getIdNumber()));
 //        If the validation succeeds, then we check the registration table for the idnumber and username
-        if (Objects.isNull(registeredUser)){
+        if (Objects.isNull(registeredUserName) && Objects.isNull(registeredIdNumber)){
 //            If the user is a new one, then we create a new user, and a new entry in the registereduser table
             String countrySuffix;
             switch (userForm.getCountry()){
@@ -76,7 +77,7 @@ public class RegistrationController implements WebMvcConfigurer {
             return new Response(1012, "SUCCESS","ID is Valid");
         } else {
             log.info("User already Exists!");
-            return new Response(1101, "FAILED", "ID already exists");
+            return new Response(1101, "FAILED", "User already exists");
         }
 
     }
