@@ -4,13 +4,13 @@ import com.account.models.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.sql.Date;
-import java.util.List;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
 //    Login function, find user, if user exists, find user and password combination
     User findByUserName(String userName);
     User findByUserNameAndPassword(String userName, String password);
+    User findByPhoneNumber(Long phoneNumber);
 
 //    Registration, if the user already exists in the registration table deny registration, otherwise:
 //    Check the idNumber to see if it exists in the users table, deny if it doesn't, then:

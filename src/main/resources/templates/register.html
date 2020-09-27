@@ -8,46 +8,58 @@
 </head>
 <body>
 
-<div>
+<div style="display:flex; justify-content:center;">
     <form class="login-form" method="post">
-        <label for="userName">Username: </label>
-        <input class="login-input" type="text" id="userName" name="userName"/>
-        <label class="login-error" id="userNameError"></label>
-        <label for="idNumber">Id Number: </label>
-        <input class="login-input" type="text" id="idNumber" name="idNumber" placeholder="12345678" maxlength="8" minlength="8"/>
-        <label class="login-error" id="idNumberError"></label>
-        <label for="idType">Id Type: </label>
-        <select class="login-input" type="text" id="idType" name="idType">
-            <option value="nationalId">National ID</option>
-            <option value="driversLicense">Drivers License</option>
-        </select>
-        <label class="login-error" id="idTypeError"></label>
-        <label for="firstName">First Name: </label>
-        <input class="login-input" type="text" id="firstName" name="firstName"/>
-        <label class="login-error" id="firstNameError"></label>
-        <label for="middleName">Middle Name: </label>
-        <input class="login-input" type="text" id="middleName" name="middleName"/>
-        <label class="login-error" id="middleNameError"></label>
-        <label for="lastName">Last Name: </label>
-        <input class="login-input" type="text" id="lastName" name="lastName"/>
-        <label class="login-error" id="lastNameError"></label>
-        <label for="phoneNumber">Phone Number: </label>
-        <input class="login-input" type="text" id="phoneNumber" name="phoneNumber" maxlength="10" minlength="10" placeholder="0771234567"/>
-        <label class="login-error" id="phoneNumberError"></label>
-        <label for="lastName">Country: </label>
-        <select class="login-input" type="text" id="country" name="country">
-            <option value="kenya">Kenya</option>
-        </select>
-        <label class="login-error" id="countryError"></label>
-        <label for="dob">Date of Birth: </label>
-        <input class="login-input" type="date" id="dob" name="dob"/>
-        <label class="login-error" id="dobError"></label>
-        <label for="password">Password: </label>
-        <input class="login-input" type="password" id="password" name="password"/>
-        <label class="login-error" id="passwordError"></label>
-        <label for="confirmPassword">Confirm Password: </label>
-        <label class="login-error" id="confirmPasswordError"></label>
-        <input class="login-input" type="password" id="confirmPassword" name="confirmPassword"/>
+        <h1 class="header">Register</h1>
+        <div class="login-input-container">
+            <input class="login-input" type="text" id="userName" name="userName" placeholder="Username"/>
+            <label class="login-error" id="userNameError"></label>
+        </div>
+        <div class="login-input-container">
+            <input class="login-input" type="text" id="idNumber" name="idNumber" placeholder="ID Number" maxlength="8" minlength="8"/>
+            <label class="login-error" id="idNumberError"></label>
+        </div>
+        <div class="login-input-container">
+            <select class="login-input" type="text" id="idType" name="idType">
+                <option value="nationalId">National ID</option>
+            </select>
+            <label class="login-error" id="idTypeError"></label>
+        </div>
+        <div class="login-input-container">
+            <input class="login-input" type="text" id="firstName" name="firstName" placeholder="First Name"/>
+            <label class="login-error" id="firstNameError"></label>
+        </div>
+        <div class="login-input-container">
+            <input class="login-input" type="text" id="middleName" name="middleName" placeholder="Middle Name"/>
+            <label class="login-error" id="middleNameError"></label>
+        </div>
+        <div class="login-input-container">
+            <input class="login-input" type="text" id="lastName" name="lastName" placeholder="Last Name"/>
+            <label class="login-error" id="lastNameError"></label>
+        </div>
+        <div class="login-input-container">
+            <input class="login-input" type="text" id="phoneNumber" name="phoneNumber" maxlength="10" minlength="10" placeholder="0771234567"/>
+            <label class="login-error" id="phoneNumberError"></label>
+        </div>
+        <div class="login-input-container">
+            <input class="login-input" type="password" id="password" name="password" placeholder="Password"/>
+            <label class="login-error" id="passwordError"></label>
+        </div>
+        <div class="login-input-container">
+            <input class="login-input" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password"/>
+            <label class="login-error" id="confirmPasswordError"></label>
+        </div>
+        <div class="login-input-container">
+            <select class="login-input" type="text" id="country" name="country">
+                <option value="kenya">Kenya</option>
+            </select>
+            <label class="login-error" id="countryError"></label>
+        </div>
+        <div class="login-input-container">
+            <label for="dob">Date of Birth: </label>
+            <input class="login-input" type="date" id="dob" name="dob"/>
+            <label class="login-error" id="dobError"></label>
+        </div>
         <input class="login-button" type="button" value="Register" onclick="registerUser()"/>
     </form>
 </div>

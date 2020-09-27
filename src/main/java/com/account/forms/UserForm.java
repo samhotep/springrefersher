@@ -13,17 +13,17 @@ public class UserForm {
 
     @NotNull(message = "Please enter a value")
     @Size(min = 2, max = 20, message = "Too short")
-    @Pattern(regexp = "[a-zA-Z0-9]*", message = "Must not contain special characters")
+    @Pattern(regexp = "[a-zA-Z]*", message = "Must only contain letters")
     private String firstName;
 
     @NotNull(message = "Please enter a value")
     @Size(min = 2, max = 20, message = "Too short")
-    @Pattern(regexp = "[a-zA-Z0-9]*", message = "Must not contain special characters")
+    @Pattern(regexp = "[a-zA-Z]*", message = "Must only contain letters")
     private String middleName;
 
     @NotNull(message = "Please enter a value")
     @Size(min = 2, max = 30, message = "Too short")
-    @Pattern(regexp = "[a-zA-Z0-9]*", message = "Must not contain special characters")
+    @Pattern(regexp = "[a-zA-Z]*", message = "Must only contain letters")
     private String lastName;
 
     @NotNull(message = "Please enter a value")

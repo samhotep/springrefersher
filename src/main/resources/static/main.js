@@ -1,28 +1,33 @@
 function registerUser(){
-    let username = document.getElementById("userName").value;
-    let idNumber = document.getElementById("idNumber").value;
-    let idType = document.getElementById("idType").value;
-    let firstName = document.getElementById("firstName").value;
-    let middleName = document.getElementById("middleName").value;
-    let lastName = document.getElementById("lastName").value;
-    let country = document.getElementById("country").value;
-    let phoneNumber = document.getElementById("phoneNumber").value;
-    let dob = document.getElementById("dob").value;
+//    Input Values
     let password = document.getElementById("password").value;
     let confirmPassword = document.getElementById("confirmPassword").value;
 
     data = {
-        userName: username,
-        idNumber: idNumber,
-        idType: idType,
-        firstName: firstName,
-        middleName: middleName,
-        lastName: lastName,
-        country: country,
-        phoneNumber: phoneNumber,
-        dob: dob,
+        userName: document.getElementById("userName").value,
+        idNumber: document.getElementById("idNumber").value,
+        idType: document.getElementById("idType").value,
+        firstName: document.getElementById("firstName").value,
+        middleName: document.getElementById("middleName").value,
+        lastName: document.getElementById("lastName").value,
+        country: document.getElementById("country").value,
+        phoneNumber: document.getElementById("phoneNumber").value,
+        dob: document.getElementById("dob").value,
         password: password,
     }
+
+//   Clear Error Labels
+    document.getElementById("userNameError").innerHTML = "";
+    document.getElementById("idNumberError").innerHTML = "";
+    document.getElementById("idTypeError").innerHTML = "";
+    document.getElementById("firstNameError").innerHTML = "";
+    document.getElementById("middleNameError").innerHTML = "";
+    document.getElementById("lastNameError").innerHTML = "";
+    document.getElementById("countryError").innerHTML = "";
+    document.getElementById("phoneNumberError").innerHTML = "";
+    document.getElementById("dobError").innerHTML = "";
+    document.getElementById("passwordError").innerHTML = "";
+    document.getElementById("confirmPasswordError").innerHTML = "";
 
     postData('/register', data).then((response) => {
 //        If successful, go to the success page
@@ -33,9 +38,16 @@ function registerUser(){
             alert(response.message + " " + response.description);
         } else if (response.code === 400) {
 //            Validation errors
+            parseErrors(response.error);
         }
-        console.log(response)
     });
+}
+
+function parseErrors(errors){
+    errors.forEach((error) => {
+        let fieldError = document.getElementById(error.field + "Error");
+        fieldError.innerHTML = error.defaultMessage;
+    })
 }
 
 function loginUser(){
@@ -52,8 +64,9 @@ function loginUser(){
         if (response.code === 1012){
 //        Print the popup, redirect to success response
             window.open('/success', '_self');
+        } else if (response.code === 400) {
+            parseErrors(response.error);
         }
-        console.log(response);
     });
 }
 

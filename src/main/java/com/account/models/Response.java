@@ -1,15 +1,27 @@
 package com.account.models;
 
+import org.springframework.validation.ObjectError;
+
+import java.util.List;
+
 public class Response {
 
     private Integer code;
     private String message;
     private String description;
+    private List<ObjectError> error;
 
     public Response(Integer code, String message, String description){
         this.code = code;
         this.message = message;
         this.description = description;
+    }
+
+    public Response(Integer code, String message, String description, List<ObjectError> error){
+        this.code = code;
+        this.message = message;
+        this.description = description;
+        this.error = error;
     }
 
     public String getDescription() {
@@ -35,4 +47,8 @@ public class Response {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public List<ObjectError> getError() { return error; }
+
+    public void setError(List<ObjectError> error) { this.error = error; }
 }

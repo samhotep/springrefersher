@@ -8,16 +8,19 @@
 </head>
 <body>
 
-<div>
+<div style="display:flex; justify-content:center;">
     <form class="login-form">
-        <label for="userName">Username: </label>
-        <input class="login-input" type="text" name="userName" id="userName"/>
-        <label class="login-error" id="userNameError"></label>
-        <label for="password">Password: </label>
-        <input class="login-input" type="password" name="password" id="password"/>
-        <label class="login-error" id="passwordError"></label>
+        <h1 class="header">Log In</h1>
+        <div class="login-input-container">
+            <input class="login-input" type="text" name="userName" id="userName" placeholder="Username"/>
+            <label class="login-error" id="userNameError"></label>
+        </div>
+        <div class="login-input-container">
+            <input class="login-input" type="password" name="password" id="password" placeholder="Password"/>
+            <label class="login-error" id="passwordError"></label>
+        </div>
         <input class="login-button" type="button" value="Log In" onclick="loginUser()" />
-        <input class="login-button" type="button" value="Register" onclick="window.open('/register', '_self')" />
+        <a value="Register" href="/register">Sign up</a>
     </form>
 </div>
 

@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.Valid;
@@ -30,31 +28,38 @@ public class RegistrationController implements WebMvcConfigurer {
 
     @Autowired
     private UserRepository userRepository;
+    private ObjectError error;
 
     @PostMapping("/register")
-    public Response registerUser(@RequestBody @Valid UserForm userForm, BindingResult bindingResult){
+    public @ResponseBody Response registerUser(@RequestBody @Valid UserForm userForm, BindingResult bindingResult){
+
 
         for (ObjectError error: bindingResult.getAllErrors()){
-            log.info(error.toString());
+            log.info(error.getCodes()[1]);
+            log.info(error.getDefaultMessage());
         }
         if (bindingResult.hasErrors()){
-            return new Response(400, "ERROR", "Errors List");
+            return new Response(400, "ERROR", "Errors List", bindingResult.getAllErrors());
         }
+
+        String countrySuffix;
+        switch (userForm.getCountry()){
+            case "tanzania":
+                countrySuffix = "255";
+            case "kenya":
+                countrySuffix = "254";
+            default:
+                countrySuffix = "254";
+        }
+        String suffixPhoneNumber = countrySuffix + userForm.getPhoneNumber().substring(1);
 
         RegisteredUser registeredUserName = registrationRepository.findByUserName(userForm.getUserName());
         RegisteredUser registeredIdNumber = registrationRepository.findByIdNumber(Integer.parseInt(userForm.getIdNumber()));
+        User userPhoneNumber = userRepository.findByPhoneNumber(Long.parseLong(suffixPhoneNumber));
+
 //        If the validation succeeds, then we check the registration table for the idnumber and username
-        if (Objects.isNull(registeredUserName) && Objects.isNull(registeredIdNumber)){
+        if (Objects.isNull(registeredUserName) && Objects.isNull(registeredIdNumber) && Objects.isNull(userPhoneNumber)){
 //            If the user is a new one, then we create a new user, and a new entry in the registereduser table
-            String countrySuffix;
-            switch (userForm.getCountry()){
-                case "tanzania":
-                    countrySuffix = "255";
-                case "kenya":
-                    countrySuffix = "254";
-                default:
-                    countrySuffix = "254";
-            }
             userRepository.save(new User(
                     userForm.getUserName(),
                     Integer.parseInt(userForm.getIdNumber()),
@@ -62,7 +67,7 @@ public class RegistrationController implements WebMvcConfigurer {
                     userForm.getFirstName(),
                     userForm.getMiddleName(),
                     userForm.getLastName(),
-                    Long.parseLong(countrySuffix + userForm.getPhoneNumber().substring(2)),
+                    Long.parseLong(suffixPhoneNumber),
                     userForm.getCountry(),
                     Date.valueOf(userForm.getDob()),
                     userForm.getPassword()
