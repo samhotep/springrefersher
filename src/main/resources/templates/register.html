@@ -4,50 +4,51 @@
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="/main.css" />
+    <script src="/main.js" ></script>
 </head>
 <body>
 
 <div>
-    <form class="login-form" action="#" th:action="@{/register}" th:object="${userForm}" method="post">
+    <form class="login-form" method="post">
         <label for="userName">Username: </label>
         <input class="login-input" type="text" id="userName" name="userName"/>
-        <label th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></label>
+        <label class="login-error" id="userNameError"></label>
         <label for="idNumber">Id Number: </label>
-        <input class="login-input" type="text" id="idNumber" name="idNumber" placeholder="12345678890"/>
-        <label th:if="${#fields.hasErrors('idNumber')}" th:errors="*{idNumber}"></label>
+        <input class="login-input" type="text" id="idNumber" name="idNumber" placeholder="12345678" maxlength="8" minlength="8"/>
+        <label class="login-error" id="idNumberError"></label>
         <label for="idType">Id Type: </label>
         <select class="login-input" type="text" id="idType" name="idType">
             <option value="nationalId">National ID</option>
             <option value="driversLicense">Drivers License</option>
         </select>
-        <label th:if="${#fields.hasErrors('idType')}" th:errors="*{idType}"></label>
+        <label class="login-error" id="idTypeError"></label>
         <label for="firstName">First Name: </label>
         <input class="login-input" type="text" id="firstName" name="firstName"/>
-        <label th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></label>
+        <label class="login-error" id="firstNameError"></label>
         <label for="middleName">Middle Name: </label>
         <input class="login-input" type="text" id="middleName" name="middleName"/>
-        <label th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}"></label>
+        <label class="login-error" id="middleNameError"></label>
         <label for="lastName">Last Name: </label>
         <input class="login-input" type="text" id="lastName" name="lastName"/>
-        <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></label>
+        <label class="login-error" id="lastNameError"></label>
         <label for="phoneNumber">Phone Number: </label>
-        <input class="login-input" type="text" id="phoneNumber" name="phoneNumber" placeholder="0771234567"/>
-        <label th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></label>
+        <input class="login-input" type="text" id="phoneNumber" name="phoneNumber" maxlength="10" minlength="10" placeholder="0771234567"/>
+        <label class="login-error" id="phoneNumberError"></label>
         <label for="lastName">Country: </label>
         <select class="login-input" type="text" id="country" name="country">
-            <option value="uganda">Uganda</option>
             <option value="kenya">Kenya</option>
         </select>
-        <label th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></label>
+        <label class="login-error" id="countryError"></label>
         <label for="dob">Date of Birth: </label>
         <input class="login-input" type="date" id="dob" name="dob"/>
-        <label th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></label>
+        <label class="login-error" id="dobError"></label>
         <label for="password">Password: </label>
         <input class="login-input" type="password" id="password" name="password"/>
-        <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></label>
+        <label class="login-error" id="passwordError"></label>
         <label for="confirmPassword">Confirm Password: </label>
+        <label class="login-error" id="confirmPasswordError"></label>
         <input class="login-input" type="password" id="confirmPassword" name="confirmPassword"/>
-        <input class="login-button" type="submit">
+        <input class="login-button" type="button" value="Register" onclick="registerUser()"/>
     </form>
 </div>
 

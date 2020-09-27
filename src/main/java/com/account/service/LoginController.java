@@ -3,19 +3,20 @@ package com.account.service;
 
 import com.account.forms.LoginForm;
 import com.account.models.RegisteredUser;
+import com.account.models.Response;
 import com.account.repository.RegistrationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.Valid;
 import java.util.Objects;
 
-@Controller
+@RestController
 public class LoginController implements WebMvcConfigurer {
 
     private static final Logger log = LoggerFactory.getLogger(LoginController.class);
@@ -23,25 +24,23 @@ public class LoginController implements WebMvcConfigurer {
     @Autowired
     private RegistrationRepository registrationRepository;
 
-    @GetMapping("/login")
-    public String login(LoginForm loginForm){
-        return "login";
-    }
-
     @PostMapping("/login")
-    public String login(@Valid LoginForm loginForm, BindingResult bindingResult) {
+    public Response login(@RequestBody @Valid LoginForm loginForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()){
-            return "login";
+            for (ObjectError error: bindingResult.getAllErrors()){
+                log.info(error.toString());
+            }
+            return new Response(400, "ERROR", "Errors List");
         }
         RegisteredUser registeredUser = registrationRepository.findByUserNameAndPassword(loginForm.getUserName(), loginForm.getPassword());
 
 //        If there is a matching username and password in the registered users table then log in
         if (!Objects.isNull(registeredUser)){
             log.info(registeredUser.getUserName());
-            return "success";
+            return new Response(1012, "SUCCESS","User is Valid");
         } else {
-            return "failed";
+            return new Response(1013, "FAILURE","User is invalid");
         }
     }
 

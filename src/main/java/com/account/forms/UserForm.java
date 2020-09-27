@@ -31,7 +31,7 @@ public class UserForm {
     private String password;
 
     @NotNull(message = "Please enter a value")
-    @Size(min = 10, max = 10, message = "Please verify the number length")
+    @Size(min = 8, max = 8, message = "Please verify the number length")
     @Pattern(regexp = "[0-9]*", message = "Must only contain numbers")
     private String idNumber;
 

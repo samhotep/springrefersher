@@ -2,23 +2,25 @@ package com.account.service;
 
 import com.account.forms.UserForm;
 import com.account.models.RegisteredUser;
+import com.account.models.Response;
 import com.account.models.User;
 import com.account.repository.RegistrationRepository;
 import com.account.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.Valid;
 import java.sql.Date;
 import java.util.Objects;
 
-@Controller
+@RestController
 public class RegistrationController implements WebMvcConfigurer {
 
     private static final Logger log = LoggerFactory.getLogger(RegistrationController.class);
@@ -29,35 +31,28 @@ public class RegistrationController implements WebMvcConfigurer {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/register")
-    public String register(UserForm userForm) {
-        return "register";
-    }
-
     @PostMapping("/register")
-    public String registerUser(@Valid UserForm userForm, BindingResult bindingResult){
+    public Response registerUser(@RequestBody @Valid UserForm userForm, BindingResult bindingResult){
 
         for (ObjectError error: bindingResult.getAllErrors()){
             log.info(error.toString());
         }
         if (bindingResult.hasErrors()){
-            return "register";
+            return new Response(400, "ERROR", "Errors List");
         }
 
-        RegisteredUser registeredUser = registrationRepository.findByIdNumber(Integer.parseInt(userForm.getIdNumber()));
+        RegisteredUser registeredUser = registrationRepository.findByIdNumberAndUserName(Integer.parseInt(userForm.getIdNumber()), userForm.getUserName());
 //        If the validation succeeds, then we check the registration table for the idnumber and username
         if (Objects.isNull(registeredUser)){
 //            If the user is a new one, then we create a new user, and a new entry in the registereduser table
             String countrySuffix;
             switch (userForm.getCountry()){
-                case "uganda":
-                    countrySuffix = "254";
                 case "tanzania":
                     countrySuffix = "255";
                 case "kenya":
-                    countrySuffix = "256";
+                    countrySuffix = "254";
                 default:
-                    countrySuffix = "255";
+                    countrySuffix = "254";
             }
             userRepository.save(new User(
                     userForm.getUserName(),
@@ -78,10 +73,10 @@ public class RegistrationController implements WebMvcConfigurer {
                 userForm.getPassword()
             ));
             log.info("Created New User!");
-            return "redirect:/success";
+            return new Response(1012, "SUCCESS","ID is Valid");
         } else {
             log.info("User already Exists!");
-            return "redirect:/failed";
+            return new Response(1101, "FAILED", "ID already exists");
         }
 
     }
