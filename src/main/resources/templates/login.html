@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/main.css" />
+</head>
+<body>
+
+<div>
+    <form class="login-form" action="#" th:action="@{/login}" th:object="${loginForm}" method="post">
+        <label for="userName">Username: </label>
+        <input class="login-input" type="text" th:field="*{userName}" name="userName" id="userName"/>
+        <label th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></label>
+        <label for="password">Password: </label>
+        <input class="login-input" type="password" th:field="*{password}" name="password" id="password"/>
+        <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></label>
+        <input class="login-button" type="submit">
+    </form>
+</div>
+
+</body>
+</html>
