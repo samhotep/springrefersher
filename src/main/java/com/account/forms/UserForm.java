@@ -11,18 +11,12 @@ public class UserForm {
     @Pattern(regexp = "[a-zA-Z0-9]*", message = "Must not contain special characters")
     private String userName;
 
-    @NotNull(message = "Please enter a value")
-    @Size(min = 2, max = 20, message = "Too short")
     @Pattern(regexp = "[a-zA-Z]*", message = "Must only contain letters")
     private String firstName;
 
-    @NotNull(message = "Please enter a value")
-    @Size(min = 2, max = 20, message = "Too short")
     @Pattern(regexp = "[a-zA-Z]*", message = "Must only contain letters")
     private String middleName;
 
-    @NotNull(message = "Please enter a value")
-    @Size(min = 2, max = 30, message = "Too short")
     @Pattern(regexp = "[a-zA-Z]*", message = "Must only contain letters")
     private String lastName;
 
@@ -31,7 +25,7 @@ public class UserForm {
     private String password;
 
     @NotNull(message = "Please enter a value")
-    @Size(min = 8, max = 8, message = "Please verify the number length")
+    @Size(min = 4, max = 15, message = "Please verify the number length")
     @Pattern(regexp = "[0-9]*", message = "Must only contain numbers")
     private String idNumber;
 
@@ -40,7 +34,7 @@ public class UserForm {
     private String country;
 
     @NotNull(message = "Please enter a value")
-    @Pattern(regexp = "^07[0-9]{8}", message = "Please enter a valid phone number")
+    @Pattern(regexp = "^(07|2547)[0-9]{8}", message = "Please enter a valid phone number")
     private String phoneNumber;
 
     @NotNull(message = "Please enter a value")

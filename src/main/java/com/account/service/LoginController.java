@@ -31,16 +31,15 @@ public class LoginController implements WebMvcConfigurer {
             for (ObjectError error: bindingResult.getAllErrors()){
                 log.info(error.toString());
             }
-            return new Response(400, "ERROR", "Errors List");
+            return new Response(400, "ERROR", "Input values are incorrect", bindingResult.getAllErrors());
         }
         RegisteredUser registeredUser = registrationRepository.findByUserNameAndPassword(loginForm.getUserName(), loginForm.getPassword());
-
 //        If there is a matching username and password in the registered users table then log in
-        if (!Objects.isNull(registeredUser)){
+        if (Objects.isNull(registeredUser)){
+            return new Response(1013, "FAILURE","User is invalid, please sign up.");
+        } else {
             log.info(registeredUser.getUserName());
             return new Response(1012, "SUCCESS","User is Valid");
-        } else {
-            return new Response(1013, "FAILURE","User is invalid");
         }
     }
 

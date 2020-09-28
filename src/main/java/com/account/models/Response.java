@@ -10,11 +10,18 @@ public class Response {
     private String message;
     private String description;
     private List<ObjectError> error;
+    private IPRSTable data;
 
     public Response(Integer code, String message, String description){
         this.code = code;
         this.message = message;
         this.description = description;
+    }
+
+    public Response(Integer code, String message, IPRSTable data){
+        this.code = code;
+        this.message = message;
+        this.data = data;
     }
 
     public Response(Integer code, String message, String description, List<ObjectError> error){
@@ -51,4 +58,13 @@ public class Response {
     public List<ObjectError> getError() { return error; }
 
     public void setError(List<ObjectError> error) { this.error = error; }
+
+    public IPRSTable getData() {
+        return data;
+    }
+
+    public void setData(IPRSTable data) {
+        this.data = data;
+    }
+
 }

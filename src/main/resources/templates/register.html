@@ -12,12 +12,12 @@
     <form class="login-form" method="post">
         <h1 class="header">Register</h1>
         <div class="login-input-container">
-            <input class="login-input" type="text" id="userName" name="userName" placeholder="Username"/>
-            <label class="login-error" id="userNameError"></label>
+            <input class="login-input" type="text" id="idNumber" name="idNumber" placeholder="ID Number" maxlength="15" minlength="4" onchange="validateId()"/>
+            <label class="login-error" id="idNumberError"></label>
         </div>
         <div class="login-input-container">
-            <input class="login-input" type="text" id="idNumber" name="idNumber" placeholder="ID Number" maxlength="8" minlength="8"/>
-            <label class="login-error" id="idNumberError"></label>
+            <input class="login-input" type="text" id="userName" name="userName" placeholder="Username"/>
+            <label class="login-error" id="userNameError"></label>
         </div>
         <div class="login-input-container">
             <select class="login-input" type="text" id="idType" name="idType">
@@ -26,27 +26,27 @@
             <label class="login-error" id="idTypeError"></label>
         </div>
         <div class="login-input-container">
-            <input class="login-input" type="text" id="firstName" name="firstName" placeholder="First Name"/>
+            <input class="login-input" type="text" id="firstName" name="firstName" placeholder="First Name" disabled/>
             <label class="login-error" id="firstNameError"></label>
         </div>
         <div class="login-input-container">
-            <input class="login-input" type="text" id="middleName" name="middleName" placeholder="Middle Name"/>
+            <input class="login-input" type="text" id="middleName" name="middleName" placeholder="Middle Name" disabled/>
             <label class="login-error" id="middleNameError"></label>
         </div>
         <div class="login-input-container">
-            <input class="login-input" type="text" id="lastName" name="lastName" placeholder="Last Name"/>
+            <input class="login-input" type="text" id="lastName" name="lastName" placeholder="Last Name" disabled/>
             <label class="login-error" id="lastNameError"></label>
         </div>
         <div class="login-input-container">
-            <input class="login-input" type="text" id="phoneNumber" name="phoneNumber" maxlength="10" minlength="10" placeholder="0771234567"/>
+            <input class="login-input" type="text" id="phoneNumber" name="phoneNumber" maxlength="12" minlength="10" placeholder="0771234567"/>
             <label class="login-error" id="phoneNumberError"></label>
         </div>
         <div class="login-input-container">
-            <input class="login-input" type="password" id="password" name="password" placeholder="Password"/>
+            <input class="login-input" type="password" id="password" name="password" placeholder="Password" minlength="8"/>
             <label class="login-error" id="passwordError"></label>
         </div>
         <div class="login-input-container">
-            <input class="login-input" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password"/>
+            <input class="login-input" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" minlength="8"/>
             <label class="login-error" id="confirmPasswordError"></label>
         </div>
         <div class="login-input-container">
@@ -57,7 +57,7 @@
         </div>
         <div class="login-input-container">
             <label for="dob">Date of Birth: </label>
-            <input class="login-input" type="date" id="dob" name="dob"/>
+            <input class="login-input" type="date" id="dob" name="dob" disabled/>
             <label class="login-error" id="dobError"></label>
         </div>
         <input class="login-button" type="button" value="Register" onclick="registerUser()"/>

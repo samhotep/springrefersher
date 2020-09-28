@@ -1,44 +1,31 @@
 package com.account.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
-public class RegisteredUser {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class RegisteredUser extends User {
 
     private String userName;
-    private Integer idNumber;
+    private String idType;
+    private String password;
 
     protected RegisteredUser() {}
 
-    public RegisteredUser(String userName, Integer idNumber, String password) {
+    public RegisteredUser(Integer idNumber, String idType, String userName, String password, String firstName, String middleName, String lastName, String phoneNumber, String country, Date dob) {
+        super(idNumber, firstName, middleName, lastName, phoneNumber, country, dob);
         this.userName = userName;
-        this.idNumber = idNumber;
+        this.password = password;
+        this.idType = idType;
         this.password = password;
     }
 
-    private String password;
-
-    public Integer getIdNumber() {
-        return idNumber;
+    public String getIdType() {
+        return idType;
     }
 
-    public void setIdNumber(Integer idNumber) {
-        this.idNumber = idNumber;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdType(String idType) {
+        this.idType = idType;
     }
 
     public String getUserName() {

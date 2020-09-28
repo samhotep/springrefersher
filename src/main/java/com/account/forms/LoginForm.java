@@ -7,11 +7,11 @@ import javax.validation.constraints.Size;
 public class LoginForm {
 
     @NotNull
-    @Size(min = 2, max = 20, message = "Invalid username")
+    @Size(min = 2, message = "Invalid username")
     private String userName;
 
     @NotNull
-    @Size(min = 8, max = 20, message = "")
+    @Size(min = 8, message = "Password too short")
     private String password;
 
     public String getUserName() {
