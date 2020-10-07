@@ -5,6 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.sql.Date;
+import java.util.Random;
 
 @MappedSuperclass
 public class User {
@@ -16,6 +17,7 @@ public class User {
     private Integer idNumber;
     private String firstName, middleName, lastName, country;
     private Date dob;
+    private String token;
 
     protected User() {}
 
@@ -27,7 +29,27 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.country = country;
         this.dob = dob;
+        // Assign a new token
+        this.token = GenerateToken();
     }
+
+    private String GenerateToken(){
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 64;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        System.out.println(generatedString);
+        return generatedString;
+    }
+
+    public String getToken() { return token; }
 
     public String getPhoneNumber() {
         return phoneNumber;
