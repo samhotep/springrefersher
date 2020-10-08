@@ -9,6 +9,7 @@ public interface RegistrationRepository extends CrudRepository<RegisteredUser, L
     RegisteredUser findByIdNumber(Integer idNumber);
     RegisteredUser findByUserName(String userName);
     RegisteredUser findByIdNumberAndUserName(Integer idNumber, String userName);
+    RegisteredUser findByUserNameAndToken(String userName, String token);
     RegisteredUser findByUserNameAndPassword(String userName, String password);
 
 }

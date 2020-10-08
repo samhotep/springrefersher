@@ -1,8 +1,10 @@
 package com.account.service;
 
 import com.account.forms.LoginForm;
+import com.account.models.Administrator;
 import com.account.models.RegisteredUser;
 import com.account.models.Response;
+import com.account.repository.AdministratorRepository;
 import com.account.repository.RegistrationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,8 @@ public class LoginController implements WebMvcConfigurer {
 
     @Autowired
     private RegistrationRepository registrationRepository;
+    @Autowired
+    private AdministratorRepository administratorRepository;
 
 
     @PostMapping("/login")
@@ -36,17 +40,25 @@ public class LoginController implements WebMvcConfigurer {
             return new Response(400, "ERROR", "Input values are incorrect", bindingResult.getAllErrors());
         }
         RegisteredUser registeredUser = registrationRepository.findByUserNameAndPassword(loginForm.getUserName(), loginForm.getPassword());
+        Administrator administrator = administratorRepository.findByUserNameAndPassword(loginForm.getUserName(), loginForm.getPassword());
+        log.info(administrator.getUserName());
 //        If there is a matching username and password in the registered users table then log in
-        if (Objects.isNull(registeredUser)){
-            return new Response(1013, "FAILURE","User is invalid, please sign up.");
-        } else {
+        if (!Objects.isNull(registeredUser)){
             log.info(registeredUser.getUserName());
-
-            // Set user token as a cookie
-//            Cookie cookie = new Cookie("token", registeredUser.getToken());
-//            response.addCookie(cookie);
+            Cookie tokenCookie = new Cookie("token", registeredUser.getToken());
+            Cookie usernameCookie = new Cookie("userName", registeredUser.getUserName());
+            response.addCookie(tokenCookie);
+            response.addCookie(usernameCookie);
+            return new Response(1012, "SUCCESS","User is Valid");
+        } else if (!Objects.isNull(administrator)) {
+            log.info(administrator.getUserName());
+            Cookie tokenCookie = new Cookie("token", administrator.getToken());
+            Cookie usernameCookie = new Cookie("userName", administrator.getUserName());
+            response.addCookie(tokenCookie);
+            response.addCookie(usernameCookie);
             return new Response(1012, "SUCCESS","User is Valid");
         }
+        return new Response(1013, "FAILURE","User is invalid, please sign up.");
     }
 
 }
