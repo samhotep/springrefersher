@@ -3,8 +3,12 @@ package com.account.repository;
 import com.account.models.RegisteredUser;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 public interface RegistrationRepository extends CrudRepository<RegisteredUser, Long>{
 
+    List<RegisteredUser> findAll();
+    List<RegisteredUser> findByRole(String role);
     RegisteredUser findById(long id);
     RegisteredUser findByIdNumber(Integer idNumber);
     RegisteredUser findByUserName(String userName);
