@@ -1,19 +1,19 @@
 package com.account.repository;
 
-import com.account.models.IPRSTable;
+import com.account.models.IPRSUser;
 import org.springframework.data.repository.CrudRepository;
 import java.sql.Date;
 
-public interface IPRSRepository extends CrudRepository<IPRSTable, Long> {
+public interface IPRSRepository extends CrudRepository<IPRSUser, Long> {
 
-    IPRSTable findByIdNumber(Integer idNumber);
-    IPRSTable findByIdNumberAndFirstName(Integer idNumber, String firstName);
-    IPRSTable findByIdNumberAndMiddleName(Integer idNumber, String lastName);
-    IPRSTable findByIdNumberAndLastName(Integer idNumber, String middleName);
-    IPRSTable findByIdNumberAndPhoneNumber(Integer idNumber, String phoneNumber);
-    IPRSTable findByIdNumberAndCountry(Integer idNumber, String country);
-    IPRSTable findByIdNumberAndDob(Integer idNumber, Date dob);
+    IPRSUser findByIdNumber(Integer idNumber);
+    IPRSUser findByIdNumberAndFirstName(Integer idNumber, String firstName);
+    IPRSUser findByIdNumberAndMiddleName(Integer idNumber, String lastName);
+    IPRSUser findByIdNumberAndLastName(Integer idNumber, String middleName);
+    IPRSUser findByIdNumberAndPhoneNumber(Integer idNumber, String phoneNumber);
+    IPRSUser findByIdNumberAndCountry(Integer idNumber, String country);
+    IPRSUser findByIdNumberAndDob(Integer idNumber, Date dob);
 
-    IPRSTable findById(long id);
+    IPRSUser findById(long id);
 }
 

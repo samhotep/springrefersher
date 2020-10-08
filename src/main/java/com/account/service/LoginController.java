@@ -1,6 +1,5 @@
 package com.account.service;
 
-
 import com.account.forms.LoginForm;
 import com.account.models.RegisteredUser;
 import com.account.models.Response;
@@ -12,11 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Objects;
 
@@ -31,7 +27,7 @@ public class LoginController implements WebMvcConfigurer {
 
 
     @PostMapping("/login")
-    public Response login(@RequestBody @Valid LoginForm loginForm, BindingResult bindingResult) {
+    public Response login(@RequestBody @Valid LoginForm loginForm, BindingResult bindingResult, HttpServletResponse response) {
 
         if (bindingResult.hasErrors()){
             for (ObjectError error: bindingResult.getAllErrors()){
@@ -45,6 +41,10 @@ public class LoginController implements WebMvcConfigurer {
             return new Response(1013, "FAILURE","User is invalid, please sign up.");
         } else {
             log.info(registeredUser.getUserName());
+
+            // Set user token as a cookie
+//            Cookie cookie = new Cookie("token", registeredUser.getToken());
+//            response.addCookie(cookie);
             return new Response(1012, "SUCCESS","User is Valid");
         }
     }

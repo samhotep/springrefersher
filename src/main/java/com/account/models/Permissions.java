@@ -1,9 +1,6 @@
 package com.account.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Permissions {
@@ -11,7 +8,10 @@ public class Permissions {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Administrator administrator;
 
+    public Permissions() {}
 
     public Permissions(String name) {
         this.name = name;
@@ -20,7 +20,6 @@ public class Permissions {
     public Integer getId() {
         return id;
     }
-
 
     public String getName() {
         return name;

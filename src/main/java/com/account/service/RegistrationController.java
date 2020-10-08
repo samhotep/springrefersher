@@ -3,7 +3,7 @@ package com.account.service;
 import com.account.forms.UserForm;
 import com.account.models.RegisteredUser;
 import com.account.models.Response;
-import com.account.models.IPRSTable;
+import com.account.models.IPRSUser;
 import com.account.repository.RegistrationRepository;
 import com.account.repository.IPRSRepository;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class RegistrationController implements WebMvcConfigurer {
     @PostMapping("/IPRSValidation")
     public @ResponseBody Response validate(@RequestBody Map<String, String> itemsMap){
         String idNumber = itemsMap.get("idNumber");
-        IPRSTable IPRSUser = iprsRepository.findByIdNumber(Integer.parseInt(idNumber));
+        IPRSUser IPRSUser = iprsRepository.findByIdNumber(Integer.parseInt(idNumber));
         RegisteredUser registeredUser = registrationRepository.findByIdNumber(Integer.parseInt(idNumber));
         if (Objects.isNull(IPRSUser)){
             return new Response(400, "INVALID", "ID is not valid");

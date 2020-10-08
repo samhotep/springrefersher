@@ -1,26 +1,29 @@
 package com.account.models;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @Entity
-public class RegisteredUser extends IPRSUser implements User {
-
+public class Administrator implements User{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String userName;
     private String password;
     private String token;
     private String role;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "administrator")
+    private Set<Permissions> permissions;
 
-    protected RegisteredUser() {}
+    protected Administrator() {}
 
-    public RegisteredUser(Integer idNumber, String idType, String userName, String password, String firstName, String middleName, String lastName, String phoneNumber, String country, Date dob) {
-        super(idNumber, firstName, middleName, lastName, phoneNumber, country, idType, dob);
+    public Administrator(String userName, String password, String role, Set<Permissions> permissions) {
         this.userName = userName;
         this.password = password;
+        this.role = role;
+        this.permissions = permissions;
         this.token = generateToken();
-        this.role = "User";
     }
 
     private String generateToken(){
@@ -39,12 +42,8 @@ public class RegisteredUser extends IPRSUser implements User {
         return generatedString;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public Long getId() {
+        return id;
     }
 
     public String getToken() {
@@ -65,5 +64,21 @@ public class RegisteredUser extends IPRSUser implements User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Set<Permissions> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Permissions> permissions) {
+        this.permissions = permissions;
     }
 }
