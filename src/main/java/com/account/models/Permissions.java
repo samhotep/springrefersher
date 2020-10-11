@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Permissions {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     private String name;
     @ManyToOne(fetch = FetchType.LAZY)
     private Administrator administrator;
@@ -17,7 +17,12 @@ public class Permissions {
         this.name = name;
     }
 
-    public Integer getId() {
+    public Permissions(String name, Administrator administrator) {
+        this.name = name;
+        this.administrator = administrator;
+    }
+
+    public Long getId() {
         return id;
     }
 

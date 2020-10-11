@@ -1,5 +1,7 @@
 package com.account.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Random;
 import java.util.Set;
@@ -10,7 +12,9 @@ public class Administrator implements User{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String userName;
+    @JsonIgnore
     private String password;
+    @JsonIgnore
     private String token;
     private String role;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "administrator")

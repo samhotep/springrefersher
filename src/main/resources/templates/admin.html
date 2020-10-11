@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/main.css" />
+    <link rel="stylesheet" href="/w3.css">
+    <script src="/main.js" ></script>
+</head>
+<body onload="setup()">
+
+<div class="w3-container">
+    <h2 class="w3-center">Administration</h2>
+    <div class="w3-col w3-center w3-border w3-border-orange">
+        <div class="w3-col w3-container m6 l6 w3-center w3-border w3-border-green">
+            <div class="w3-row w3-container m6 l6 w3-center w3-border w3-border-blue">
+                <h4 class="w3-center">Users List</h4>
+                <div class="w3-col w3-container m6 l6 w3-border w3-border-light-blue">
+                    <h5 class="w3-center">Administrators</h5>
+                    <div class="vertical-menu w3-center" id="adminList">
+
+                    </div>
+                </div>
+                <div class="w3-col w3-container m6 l6 w3-border w3-border-light-blue">
+                    <h5 class="w3-center">Registered Users</h5>
+                    <div class="vertical-menu w3-center" id="userList">
+
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row w3-container m6 l6 w3-center w3-border w3-border-blue">
+                <h4 class="w3-center">Add/Remove Permissions</h4>
+                <div class="w3-col w3-container m6 l6">
+                    <div class="w3-dropdown-hover perm-div">
+                        <button class="w3-button w3-black w3-small">Select Permission</button>
+                        <div class="w3-dropdown-content w3-bar-block w3-border">
+                            <div onclick="setPerm(this)" id="access.adminpage" class="w3-bar-item w3-button">access.adminpage</div>
+                            <div onclick="setPerm(this)" id="access.userpage" class="w3-bar-item w3-button">access.userpage</div>
+                            <div onclick="setPerm(this)" id="access.userslist" class="w3-bar-item w3-button">access.userslist</div>
+                            <div onclick="setPerm(this)" id="access.adminslist" class="w3-bar-item w3-button">access.adminslist</div>
+                            <div onclick="setPerm(this)" id="access.perms" class="w3-bar-item w3-button">access.perms</div>
+                            <div onclick="setPerm(this)" id="add.manager" class="w3-bar-item w3-button">add.manager</div>
+                            <div onclick="setPerm(this)" id="add.admin" class="w3-bar-item w3-button">add.admin</div>
+                            <div onclick="setPerm(this)" id="edit.user" class="w3-bar-item w3-button">edit.user</div>
+                            <div onclick="setPerm(this)" id="edit.manager" class="w3-bar-item w3-button">edit.manager</div>
+                            <div onclick="setPerm(this)" id="delete.user" class="w3-bar-item w3-button">delete.user</div>
+                            <div onclick="setPerm(this)" id="delete.manager" class="w3-bar-item w3-button">delete.manager</div>
+                        </div>
+                    </div>
+                    <h2 id="addPerm">Permission name</h2>
+                    <button onclick="pushPerm()" class="w3-button w3-blue w3-small w3-center">Add Permission</button>
+                </div>
+                <div class="w3-col w3-container m6 l6">
+                    <div class="vertical-menu w3-center" id="permissionsList">
+                    </div>
+                    <h2 id="remPerm">Permission name</h2>
+                    <button onclick="pullPerm()" class="w3-button w3-black w3-small w3-center">Remove Permission</button>
+                </div>
+            </div>
+        </div>
+        <div class="w3-col w3-container m6 l6 w3-center w3-border w3-border-green">
+            <p>Admin Right</p>
+            <p hidden id="selectedUser">Selected User</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

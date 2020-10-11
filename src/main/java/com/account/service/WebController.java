@@ -45,7 +45,32 @@ public class WebController implements WebMvcConfigurer {
         return "register";
     }
 
+    @GetMapping("/admin")
+    public String getAdmin(UserForm userForm, HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String userName = "";
+        String token = "";
+        try {
+            for (Cookie cookie: cookies
+            ) {
+                if (cookie.getName().equals("userName")){
+                    userName = cookie.getValue();
+                } else if (cookie.getName().equals("token")){
+                    token = cookie.getValue();
+                }
+            }
+
+            if (userIsValid(userName, token)){
+                if (hasPermission("access.adminpage") || !Objects.isNull(validAdministratorUser)){
+                    return "admin";
+                }
+            }
+        } catch (NullPointerException e) {}
+        return "login";
+    }
+
     @GetMapping("/failure")
+
     public String getFailure(UserForm userForm){
         return "failure";
     }

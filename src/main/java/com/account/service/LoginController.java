@@ -49,14 +49,14 @@ public class LoginController implements WebMvcConfigurer {
             Cookie usernameCookie = new Cookie("userName", registeredUser.getUserName());
             response.addCookie(tokenCookie);
             response.addCookie(usernameCookie);
-            return new Response(1012, "SUCCESS","User is Valid");
+            return new Response(1012, "SUCCESS","user");
         } else if (!Objects.isNull(administrator)) {
             log.info(administrator.getUserName());
             Cookie tokenCookie = new Cookie("token", administrator.getToken());
             Cookie usernameCookie = new Cookie("userName", administrator.getUserName());
             response.addCookie(tokenCookie);
             response.addCookie(usernameCookie);
-            return new Response(1012, "SUCCESS","User is Valid");
+            return new Response(1012, "SUCCESS","admin");
         }
         return new Response(1013, "FAILURE","User is invalid, please sign up.");
     }

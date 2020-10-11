@@ -1,15 +1,18 @@
 package com.account.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 import java.util.Random;
 
 @Entity
 public class RegisteredUser extends IPRSUser implements User {
 
     private String userName;
+    @JsonIgnore
     private String password;
+    @JsonIgnore
     private String token;
     private String role;
 
