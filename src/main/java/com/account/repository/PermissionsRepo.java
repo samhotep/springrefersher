@@ -12,4 +12,5 @@ public interface PermissionsRepo extends CrudRepository<Permissions, Long> {
     Permissions findById( Integer id);
     Permissions findByName(String name);
     Set<Permissions> findByAdministrator(Administrator administrator);
+    Permissions findByAdministratorAndName(Administrator administrator, String name);
 }

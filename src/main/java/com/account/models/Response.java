@@ -3,6 +3,7 @@ package com.account.models;
 import org.springframework.validation.ObjectError;
 
 import java.util.List;
+import java.util.Set;
 
 public class Response {
 
@@ -13,6 +14,7 @@ public class Response {
     private IPRSUser data;
     private List<RegisteredUser> registeredUsers;
     private List<Administrator> administrators;
+    private Set<Permissions> permissions;
 
     public Response(Integer code, String message, String description){
         this.code = code;
@@ -32,6 +34,12 @@ public class Response {
         this.registeredUsers = registeredUsers;
     }
 
+    public Response(Integer code, String message, Set<Permissions> permissions){
+        this.code = code;
+        this.message = message;
+        this.permissions = permissions;
+    }
+
     public Response(Integer code, String message, List<Administrator> administrators){
         this.code = code;
         this.message = message;
@@ -43,6 +51,14 @@ public class Response {
         this.message = message;
         this.description = description;
         this.error = error;
+    }
+
+    public Set<Permissions> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Permissions> permissions) {
+        this.permissions = permissions;
     }
 
     public List<Administrator> getAdministrators() {

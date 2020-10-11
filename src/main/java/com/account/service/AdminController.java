@@ -1,5 +1,7 @@
 package com.account.service;
 
+import com.account.forms.LoginForm;
+import com.account.forms.PermissionForm;
 import com.account.models.Administrator;
 import com.account.models.Permissions;
 import com.account.models.RegisteredUser;
@@ -10,12 +12,12 @@ import com.account.repository.RegistrationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -59,6 +61,43 @@ public class AdminController implements WebMvcConfigurer {
             List<RegisteredUser> registeredUsers;
             registeredUsers = registrationRepository.findAll();
             return new Response(200, "VALIDATED", 5, registeredUsers);
+        }
+        return new Response(1013, "FAILURE","You do not have the required permissions to access this resource.");
+    }
+
+    @GetMapping("/admin/permissions")
+    public Response getPermissions(@RequestParam(name="name", required=false, defaultValue="Stranger") String name, HttpServletRequest request){
+        getCookies(request);
+        if (userIsValid() && hasPermission("access.permslist")){
+            Administrator administrator = administratorRepository.findByUserName(name);
+            Set<Permissions> permissions;
+            permissions = permissionsRepo.findByAdministrator(administrator);
+            return new Response(200, "VALIDATED", permissions);
+        }
+        return new Response(1013, "FAILURE","You do not have the required permissions to access this resource.");
+    }
+
+    @PostMapping("/admin/updatepermissions")
+    public Response updatePermissions(@RequestBody @Valid PermissionForm permissionForm, HttpServletRequest request){
+        getCookies(request);
+        log.info(permissionForm.getUser());
+        if (userIsValid() && hasPermission("access.permslist")){
+            Administrator administrator = administratorRepository.findByUserName(permissionForm.getUser());
+            permissionsRepo.save(new Permissions(permissionForm.getPermissionName(), administrator));
+            return new Response(200, "VALIDATED", "Permissions updated successfully");
+        }
+        return new Response(1013, "FAILURE","You do not have the required permissions to access this resource.");
+    }
+
+    @PostMapping("/admin/removepermissions")
+    public Response removePermissions(@RequestBody @Valid PermissionForm permissionForm, HttpServletRequest request){
+        getCookies(request);
+        log.info(permissionForm.getUser());
+        if (userIsValid() && hasPermission("access.permslist")){
+            Administrator administrator = administratorRepository.findByUserName(permissionForm.getUser());
+            Permissions permissions = permissionsRepo.findByAdministratorAndName(administrator, permissionForm.getPermissionName());
+            permissionsRepo.deleteById(permissions.getId());
+            return new Response(200, "VALIDATED", "Permissions updated successfully");
         }
         return new Response(1013, "FAILURE","You do not have the required permissions to access this resource.");
     }

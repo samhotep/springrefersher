@@ -51,3 +51,32 @@
 .login-button:hover {
     background-color: #67daff;
 }
+
+.vertical-menu {
+  width: 300px;
+  height: 200px;
+  margin: auto;
+  overflow-y: auto;
+}
+
+.vertical-menu div {
+  background-color: #eee;
+  color: black;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.vertical-menu div:hover {
+  background-color: #ccc;
+}
+
+.vertical-menu div:active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.perm-div {
+  height: 200px;
+  overflow-y: auto;
+}
