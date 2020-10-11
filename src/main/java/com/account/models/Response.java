@@ -11,6 +11,8 @@ public class Response {
     private String description;
     private List<ObjectError> error;
     private IPRSUser data;
+    private List<RegisteredUser> registeredUsers;
+    private List<Administrator> administrators;
 
     public Response(Integer code, String message, String description){
         this.code = code;
@@ -24,11 +26,39 @@ public class Response {
         this.data = data;
     }
 
+    public Response(Integer code, String message, Integer methodNumber, List<RegisteredUser> registeredUsers){
+        this.code = code;
+        this.message = message;
+        this.registeredUsers = registeredUsers;
+    }
+
+    public Response(Integer code, String message, List<Administrator> administrators){
+        this.code = code;
+        this.message = message;
+        this.administrators = administrators;
+    }
+
     public Response(Integer code, String message, String description, List<ObjectError> error){
         this.code = code;
         this.message = message;
         this.description = description;
         this.error = error;
+    }
+
+    public List<Administrator> getAdministrators() {
+        return administrators;
+    }
+
+    public void setAdministrators(List<Administrator> administrators) {
+        this.administrators = administrators;
+    }
+
+    public List<RegisteredUser> getRegisteredUsers() {
+        return registeredUsers;
+    }
+
+    public void setRegisteredUsers(List<RegisteredUser> registeredUsers) {
+        this.registeredUsers = registeredUsers;
     }
 
     public String getDescription() {

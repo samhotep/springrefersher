@@ -1,29 +1,34 @@
 package com.account.service;
 
-import com.account.forms.LoginForm;
-import com.account.forms.UserForm;
 import com.account.models.Administrator;
 import com.account.models.Permissions;
 import com.account.models.RegisteredUser;
+import com.account.models.Response;
 import com.account.repository.AdministratorRepository;
 import com.account.repository.PermissionsRepo;
 import com.account.repository.RegistrationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@Controller
-public class WebController implements WebMvcConfigurer {
+@RestController
+public class AdminController implements WebMvcConfigurer {
+
+    private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 
     private RegisteredUser validRegisteredUser = null;
     private Administrator validAdministratorUser = null;
+    private String userName = "";
+    private String token = "";
 
     @Autowired
     private RegistrationRepository registrationRepository;
@@ -32,47 +37,45 @@ public class WebController implements WebMvcConfigurer {
     @Autowired
     private PermissionsRepo permissionsRepo;
 
-    private static final Logger log = LoggerFactory.getLogger(RegistrationController.class);
-
-    @GetMapping("/login")
-    public String getLogin(LoginForm loginForm){
-        return "login";
+    @GetMapping("/admin/admins")
+    public Response getAdmins(HttpServletRequest request){
+        getCookies(request);
+        if (userIsValid() && hasPermission("access.adminslist")){
+            List<Administrator> administrators;
+            if (validAdministratorUser.getRole().equals("admin")){
+                administrators = administratorRepository.findAll();
+            } else {
+                administrators = administratorRepository.findByRole(validAdministratorUser.getRole());
+            }
+            return new Response(200, "VALIDATED", administrators);
+        }
+        return new Response(1013, "FAILURE","You do not have the required permissions to access this resource.");
     }
 
-    @GetMapping("/register")
-    public String getRegister(UserForm userForm)
-    {
-        return "register";
+    @GetMapping("/admin/users")
+    public Response getUsers(HttpServletRequest request){
+        getCookies(request);
+        if (userIsValid() && hasPermission("access.userslist")){
+            List<RegisteredUser> registeredUsers;
+            registeredUsers = registrationRepository.findAll();
+            return new Response(200, "VALIDATED", 5, registeredUsers);
+        }
+        return new Response(1013, "FAILURE","You do not have the required permissions to access this resource.");
     }
 
-    @GetMapping("/failure")
-    public String getFailure(UserForm userForm){
-        return "failure";
-    }
-
-    @GetMapping("/success")
-    public String getSuccess(UserForm userForm, HttpServletRequest request){
+    public void getCookies(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
-        String userName = null;
-        String token = null;
         for (Cookie cookie: cookies
-             ) {
+        ) {
             if (cookie.getName().equals("userName")){
                 userName = cookie.getValue();
             } else if (cookie.getName().equals("token")){
                 token = cookie.getValue();
             }
         }
-
-        if (userIsValid(userName, token)){
-            if (hasPermission("access.userpage") || !Objects.isNull(validAdministratorUser)){
-                return "success";
-            }
-        }
-        return "failure";
     }
 
-    public Boolean userIsValid(String userName, String token){
+    public Boolean userIsValid(){
         RegisteredUser registeredUser = registrationRepository.findByUserNameAndToken(userName, token);
         if (Objects.isNull(registeredUser)){
             Administrator administrator = administratorRepository.findByUserNameAndToken(userName, token);
