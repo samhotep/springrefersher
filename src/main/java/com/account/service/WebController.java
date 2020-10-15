@@ -90,9 +90,7 @@ public class WebController implements WebMvcConfigurer {
         }
 
         if (userIsValid(userName, token)){
-            if (hasPermission("access.userpage") || !Objects.isNull(validAdministratorUser)){
-                return "success";
-            }
+            return "success";
         }
         return "failure";
     }
