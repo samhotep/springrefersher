@@ -7,7 +7,7 @@ import java.sql.Date;
 import java.util.Random;
 
 @Entity
-public class RegisteredUser extends IPRSUser implements User {
+public class RegisteredUser extends IPRSUser {
 
     private String userName;
     @JsonIgnore

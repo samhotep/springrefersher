@@ -7,7 +7,7 @@ import java.util.Random;
 import java.util.Set;
 
 @Entity
-public class Administrator implements User{
+public class Administrator {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

@@ -115,7 +115,8 @@ public class AdminController implements WebMvcConfigurer {
     }
 
     public Boolean userIsValid(){
-        RegisteredUser registeredUser = registrationRepository.findByUserNameAndToken(userName, token);
+//        RegisteredUser registeredUser = registrationRepository.findByUserNameAndToken(userName, token);
+        RegisteredUser registeredUser = registrationRepository.findByUserName(userName);
         if (Objects.isNull(registeredUser)){
             Administrator administrator = administratorRepository.findByUserNameAndToken(userName, token);
             if (Objects.isNull(administrator)){
