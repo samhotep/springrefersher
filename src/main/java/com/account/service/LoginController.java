@@ -41,7 +41,6 @@ public class LoginController implements WebMvcConfigurer {
         }
         RegisteredUser registeredUser = registrationRepository.findByUserNameAndPassword(loginForm.getUserName(), loginForm.getPassword());
         Administrator administrator = administratorRepository.findByUserNameAndPassword(loginForm.getUserName(), loginForm.getPassword());
-        log.info(administrator.getUserName());
 //        If there is a matching username and password in the registered users table then log in
         if (!Objects.isNull(registeredUser)){
             log.info(registeredUser.getUserName());

@@ -172,6 +172,7 @@ function validateId(){
             document.getElementById("idNumberError").innerHTML = response.description;
         } else {
             for (const key in response.data){
+                console.log(key);
                 document.getElementById(key).value = response.data[key];
             }
         }

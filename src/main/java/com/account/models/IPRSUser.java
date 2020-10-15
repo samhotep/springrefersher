@@ -1,5 +1,7 @@
 package com.account.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -8,6 +10,7 @@ import java.sql.Date;
 public class IPRSUser{
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer idNumber;
