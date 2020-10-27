@@ -34,14 +34,14 @@ public class RegistrationController implements WebMvcConfigurer {
     @PostMapping("/IPRSValidation")
     public @ResponseBody Response validate(@RequestBody Map<String, String> itemsMap){
         String idNumber = itemsMap.get("idNumber");
-        IPRSUser IPRSUser = iprsRepository.findByIdNumber(Integer.parseInt(idNumber));
+        IPRSUser iprsUser = iprsRepository.findTopByIdNumber(Integer.parseInt(idNumber));
         RegisteredUser registeredUser = registrationRepository.findByIdNumber(Integer.parseInt(idNumber));
-        if (Objects.isNull(IPRSUser)){
+        if (Objects.isNull(iprsUser)){
             return new Response(400, "INVALID", "ID is not valid");
         } else if (!Objects.isNull(registeredUser)) {
             return new Response(401, "INVALID", "ID is already registered.");
         } else {
-            return new Response(200, "VALIDATED", IPRSUser);
+            return new Response(200, "VALIDATED", iprsUser);
         }
     }
 

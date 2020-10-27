@@ -7,6 +7,7 @@ import java.sql.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "iprsuser")
 public class IPRSUser{
 
     @Id

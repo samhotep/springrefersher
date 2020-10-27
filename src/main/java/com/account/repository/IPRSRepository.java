@@ -6,7 +6,7 @@ import java.sql.Date;
 
 public interface IPRSRepository extends CrudRepository<IPRSUser, Long> {
 
-    IPRSUser findByIdNumber(Integer idNumber);
+    IPRSUser findTopByIdNumber(Integer idNumber);
     IPRSUser findByIdNumberAndFirstName(Integer idNumber, String firstName);
     IPRSUser findByIdNumberAndMiddleName(Integer idNumber, String lastName);
     IPRSUser findByIdNumberAndLastName(Integer idNumber, String middleName);
