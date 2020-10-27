@@ -1,9 +1,10 @@
 package com.account.service;
 
+import com.account.forms.AdminForm;
 import com.account.forms.UserForm;
-import com.account.models.RegisteredUser;
-import com.account.models.Response;
-import com.account.models.IPRSUser;
+import com.account.models.*;
+import com.account.repository.AdministratorRepository;
+import com.account.repository.PermissionsRepo;
 import com.account.repository.RegistrationRepository;
 import com.account.repository.IPRSRepository;
 import org.slf4j.Logger;
@@ -16,8 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.Valid;
 import java.sql.Date;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 public class RegistrationController implements WebMvcConfigurer {
@@ -29,6 +29,13 @@ public class RegistrationController implements WebMvcConfigurer {
 
     @Autowired
     private IPRSRepository iprsRepository;
+
+    @Autowired
+    private AdministratorRepository administratorRepository;
+
+    @Autowired
+    private PermissionsRepo permissionsRepo;
+
     private ObjectError error;
 
     @PostMapping("/IPRSValidation")
@@ -82,4 +89,48 @@ public class RegistrationController implements WebMvcConfigurer {
 
     }
 
+    @PostMapping("/registerAdmin")
+    public @ResponseBody Response registerAdmin(@RequestBody @Valid AdminForm adminForm, BindingResult bindingResult){
+
+        if (bindingResult.hasErrors()){
+            for (ObjectError error: bindingResult.getAllErrors()){
+                log.info(error.toString());
+            }
+            return new Response(420, "ERROR", "Input values are incorrect", bindingResult.getAllErrors());
+        }
+
+        Administrator administrator = administratorRepository.findByUserName(adminForm.getUserName());
+
+//        If the validation succeeds, then we check the registration table for the idnumber and username
+        if (Objects.isNull(administrator)){
+
+            Set<Permissions> permissions =  new HashSet<Permissions>();
+//            If the user is a new one, then we create a new user, and a new entry in the registereduser table
+            Administrator newAdmin = new Administrator(
+                    adminForm.getUserName(),
+                    adminForm.getPassword(),
+                    adminForm.getRole(),
+                    permissions
+            );
+            administratorRepository.save(newAdmin);
+            if (adminForm.getRole().equals("admin")){
+                permissionsRepo.save(new Permissions("access.adminpage", administrator));
+                permissionsRepo.save(new Permissions("access.adminlist", administrator));
+                permissionsRepo.save(new Permissions("access.userslist", administrator));
+                permissionsRepo.save(new Permissions("edit.user", administrator));
+                permissionsRepo.save(new Permissions("delete.user", administrator));
+                permissionsRepo.save(new Permissions("access.permslist", administrator));
+            } else if (adminForm.getRole().equals("manager")) {
+                permissionsRepo.save(new Permissions("access.adminpage", administrator));
+                permissionsRepo.save(new Permissions("access.userslist", administrator));
+                permissionsRepo.save(new Permissions("edit.user", administrator));
+                permissionsRepo.save(new Permissions("delete.user", administrator));
+            }
+            log.info("Created New User!");
+            return new Response(1012, "SUCCESS","Admin is Valid.");
+        } else {
+            log.info("Admin already Exists!");
+            return new Response(400, "INVALID", "Username already taken.");
+        }
+    }
 }

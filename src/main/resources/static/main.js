@@ -246,3 +246,48 @@ async function getData(url){
       });
     return response.json(); // parses JSON response into native JavaScript objects
 }
+
+function logout(){
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.open('/login', '_self');
+}
+
+function createAdmin(){
+//   Clear Error Labels
+    document.getElementById("roleError").innerHTML = "";
+
+//    Validate Password
+    let password = document.getElementById("password").value;
+    let confirmPassword = document.getElementById("confirmPassword").value;
+
+//    Input Values
+    data = {
+        userName: document.getElementById("userName").value,
+        role: document.getElementById("role").value,
+        password: password,
+    }
+
+    if (password !== confirmPassword){
+        document.getElementById("passwordError").innerHTML = "Passwords do not match!";
+    } else {
+        postData('/registerAdmin', data).then((response) => {
+//            If successful, go to the success page
+            if (response.code === 1012){
+            //        Print the popup, redirect to login page
+                window.alert('Admin created successfully');
+                window.location.reload();
+            } else if (response.code === 400) {
+                window.alert('Admin creation failed!');
+            } else if (response.code === 420){
+//                Validation errors
+                document.getElementById("roleError").innerHTML = response.description;
+            }
+            console.log(response);
+        });
+//        setTimeout(() => {
+//            console.log("delay");
+//            window.location.reload();
+//        }, 5000);
+    }
+}
